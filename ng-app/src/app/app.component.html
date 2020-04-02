@@ -1,0 +1,16 @@
+<h1>{{title}}</h1>
+
+<h1>Data Binding: interploation</h1>
+<h2>Number : {{views}}</h2>
+<h2>Boolean : {{isActive ? 'Active' : 'InActive'}}</h2>
+<h1>Data Binding: Object</h1>
+<h2>{{address.city}} {{address.state}}</h2>
+<h1>Array Binding</h1>
+<!-- for loop -->
+<ul>
+    <li *ngFor="let skill of skills">
+        {{skill}}
+    </li>
+</ul>
+<!--Child Component : sending data from parent to child-->
+<app-address [addrtitle]="'Address Child Component'"  [addr]="address"></app-address>

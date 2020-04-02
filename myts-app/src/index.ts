@@ -1,108 +1,80 @@
-//Decorators
-
-//decorator code
+//inheritance:
 /**
- * 1.function must take arg: target (on which the decorator has been attached)
+ * Base class could be
+ * 1.concrete class
+ * 2.interfaces
+ * 3.abstract class
  */
-
-//Level 1: declaration
-// function Course(target: any) {
-//     console.log('Course decorator is used!')
-// }
-//Level 2 : add decorator logic
-//Get the Student Prototype Object, add courseName property, and set the value
-// function Course(target: any) {
-//     //Logic
-//     Object.defineProperty(target.prototype, "courseName", {
-//         value: 'Angular with Type script'
-//     });
-// }
-
-// //app code
-// @Course
-// class Student {
-//     constructor(public firstName?: string, public lastName?: string) { }
-// }
-// let student = new Student("Subramanian", "Murugan") as any;
-// console.log(`${student.firstName} ${student.lastName} is learning ${student.courseName}`);
-
-//use case 2 : course information as input
-
-
-// function Course(target: any) {
-//     //Logic
-//     Object.defineProperty(target.prototype, "courseName", {
-//         value: 'Angular with Type script'
-//     });
-// }
-
-//Level 3 : add decorator logic,with input
-type CourseType = {
-    code: string;
-    courseName: string;
-}
-
-function Course(courseinfo: any) {
-    //target should be inside another function
-    return function (target: any) {
-        //Logic
-        Object.defineProperty(target.prototype, 'courseinfo', { value: courseinfo })
+//
+class Account {
+    constructor(public accNo?: number) {
+        console.log('Account class')
     }
-
-}
-
-function Logger(config: any) {
-    return function (target: any) {
-        console.log("\x1b[44m%s\x1b[0m", `${config.type} - ${config.message} on ${new Date()}`);
+    deposit(): number {
+        return 10;
     }
 }
-
-//method decorator
-function extendAble(value: any) {
-    return function (target: any, prop: any, propdescriptor: PropertyDescriptor) {
-        console.log(target);
-        console.log(prop);
-        console.log(propdescriptor);
-        propdescriptor.writable = value;
+class SavingsAccount extends Account {
+    constructor(public id: number) {
+        super(this.id);
+        console.log('Savings account!')
+    }
+    //method redefinging (overriding)
+    deposit(): number {
+        return 100 * super.deposit();
     }
 }
-
-//field decorator
-function Input(label: string) {
-    return function (target: any, key: string) {
-        console.log(target)
-        console.log(key);
-        Object.defineProperty(target, key, {
-            configurable: false,
-            get: () => label
-        });
+let sb = new SavingsAccount(3444);
+console.log(sb.accNo)
+console.log(sb.deposit())
+////////////////////////////////////////////////////////////////////////////////////
+//interfaces : generic inheritance
+interface Runnable {
+    //just method declaration
+    run(): void
+}
+class Lion implements Runnable {
+    //you must provide implementation
+    run(): void {
+        console.log('Lion runs!')
     }
 }
-
-
-
-@Course({ name: 'Node js' })
-@Logger({
-    message: 'Have latest Version',
-    type: 'Warning'
-})
-class Student {
-
-    @Input('Sapient Learning Division')
-    instituteName: string;
-
-    constructor(public firstName?: string, public lastName?: string) { }
-    //cost of this is fixed
-    @extendAble(false)
-    calculateCost() {
-        return 10000;
+class Wheel implements Runnable {
+    run(): void {
+        console.log('Wheel runs!')
     }
 }
-let student = new Student("Subramanian", "Murugan") as any;
-console.log(` ${student.instituteName} ${student.firstName} ${student.lastName} is learning ${student.courseinfo.name}`);
+let lion = new Lion()
+let wheel = new Wheel();
 
-student.calculateCost = function () {
-    return 15000;
+lion.run()
+wheel.run();
+////////////////////////////////////////
+//Abstract classes: similar to interfaces but which is having common behaviour
+//for same family of child classes.
+//abstract classes = genric  + common implemenation
+
+abstract class Animal {
+    abstract eat(): void;
+    //concret
+    saveAnimals(): string {
+        return 'Save Animals from Hunters!'
+    }
 }
+class Tiger extends Animal {
+    eat() {
+        console.log('Tiger eats')
+    }
+}
+let tiger = new Tiger();
+tiger.eat();
+console.log(tiger.saveAnimals());
 
-console.log(`Course cost ${student.calculateCost()}`);
+class Elephant extends Animal {
+    eat() {
+        console.log('Elephant eats')
+    }
+}
+let ele = new Elephant();
+ele.eat();
+console.log(ele.saveAnimals());

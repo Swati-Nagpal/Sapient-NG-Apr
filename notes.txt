@@ -489,9 +489,467 @@ student.calculateCost = function () {
 
 console.log(`Course cost ${student.calculateCost()}`);
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Modularity :
+
+Break application into  separate files and folders.
+
+Sharing code across the files.
+
+Modularity in js:
+
+1.namespace
+2.amd
+3.cjs
+4.es6 modules
+5.system
+6.UMD
+
+DEV:
+
+1.CJS - node  -  exports,module.exports,require
+2.ES6 - amd + cjs => export,export default , import
+
+Angular uses es 6 modules for code sharing.
+
+TS module System:
+
+1.es 6 module
+2.namepaces
+
+Angular module system:
+
+1.es 6 modules =>
+2.Angular modules
+
+
+
+ES 6 modules:
+
+1.export ,export default : sharing code
+
+2.import : linking files and getting shared code
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////
+
+import {Component} from '@angular/core'
+          |
+        class Name ----------------export class Component{} - component.ts
+
+import { CustomerService } from './services/CustomerService';
+          |
+          class Name --------->export class CustomerService ----CustomerService.ts
+            
+
+src
+  |
+  services
+     |
+      CustomerService
+      OrderService
+      .....
+
+if you want to import many services /class in single file
+
+ ReportComponent.ts
+    
+ import { CustomerService } from './services/CustomerService';
+ import { OrderService } from './services/OrderService';
+
+in barrel export mode
+
+import { CustomerService ,OrderService } from './services';
+
+
+How to implement?
+
+ src
+  |
+  services
+     |
+      CustomerService
+      OrderService
+      index.ts -
+	reexport
+export { CustomerService } from './CustomerService';
+
+ main.ts
+
+
+Sync 
+
+Async 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+Generics:
+
+Type erasor
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Angular:
+
+platform :
+    -Core Runtime
+    ->Core libs
+Framework
+     -collection of projects to build an end to end 
+
+
+MVC - Design pattern for build user interface
+
+dependency injection:
+   
+  -Object has-a relationship
+     ->IOC : Inversion of Control :https://martinfowler.com/articles/injection.html
+
+Java : spring : the reference implementation of ioc pattern.
+
+Angular 2 , adopated ioc design pattern at core.
+
+
+HAS - A Problmes
+
+1.dev need to create objects
+2.dev need to bind objects : wiring
+
+How to solve it: 
+  IOC
+
+invert : do opposit
+of control : managment
+
+Here , dev has control to create objects, link those objects => we need to invert this
+  
+  - Automation :  Object creations, linking objects
+      -Automation software : injector
+   
+NG : will create objects, wire those objects  automatatically through "Angular $injector Service"
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Architecture
+1.Framework architecture
+
+Angular framework is collection of many projects.
+
+ google/searchEngine,map,mail,........
+  |                 
+ companyName  - Projects
+ 
+
+Angular is also starts angular root
+
+   @angular/ core /animations /cli /common
+     |           |
+  namepace       projects
+   
+   @angular/core   
+   @angular/cli
+   @angular/common
+   etc...
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+1.Application architecture
+
+ Ng collection of Objects
+
+Objects
+ 1.infra objects
+ 2.domain objects - biz objects like customers,orders....
+
+
+
+Starting Coding:
+...............
+
+Angular Project : cli
+
+Angular CLI    Automate && accelerate your work flow
+
+From the Project creation, to dev,testing,deployment
+
+>Get the cli project
+npm install -g @angular/cli
+ng new my-dream-app
+cd my-dream-app
+ng serve
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+Automation by webpack<--angular.json is app config
+.............................................................................................
+
+Angular application is kept inside src/app folder:
+
+
+Application : 
+collection many things
+
+ -html file
+ -css file
+ -ts file
+    |
+    component
+    service
+    directive
+    ..
+    module file
+    unit test
+
+Application is collection of objects.
+
+1.Component :
+
+ Component is object
+ Component is Controller Object in MVC
+ Component is Face to the End User which represents User Interface
+
+View :
+  It is run time representation of template.
+
+template :
+  It is design time /compile time represention of view.
+
+Template :
+  Collection of html elements and angular instructions.
+/////////////////////////////////////////////////////////////////////////////////////////////////
+
+Every Component two things
+
+1.template
+    ->HTML + Angular instructions
+    -Styling: css
+
+Component relationship objects
+  ->Module
+  ->Service
+  ->Directive
+  ->Pipe
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+NG collection of many objects
+
+ ->Module Object
+     Which talks about modularity : 
+          ES 6 modularity
+                code sharing and file linking
+
+          angular modularity
+               sharing objects and linking objects 
+            
+
+Angular has two module object:
+
+ 1.Main Module
+       Application object
+ 2.Sub Modules
+       Collection of other objects
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Point : any object (module,componetn,service....) is created by angular di subsystem only
+
+if you want to create object. you need template: ts class
+
+
+
+class AppComponent {
+  constructor() { }
+}
+//let appCmp = new AppComponent()
+
+
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'ng-app';
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////
+
+how plain ts class becomes compoent(controller).
+
+
+class Person{
+   //common data
+}
+
+class Employee extends Person {
+
+}
+
+class Component{
+   id;
+   template
+   templateUr
+}
+
+class AppComponent extends Component {
+
+
+}
+
+ new AppComponent();
+
+Instead of writing inheritance model, we use loosly copuled inheritance : decorator.
+
+Every infra object must be decorated
+
+module : @NgModule
+compone : @component
+service ; @injectable
+directive : @directive
+pipe : @pipe
+
+@input
+@output
+@viewC
+.......
+
+Decorator meta Object:
+
+ -input of decorators
+most of the decorators which takes parameter as object : decorator meta object
+
+
+Properties of Component decorator meta object:
+
+1.selector
+	app-root
+  <app-root></app-root>- html element ? like h1,div
+
+HTML 5 concept 
+  ->custom elements, dev , can introduce new elements inside html.
+
+
+ h1 ------>brwser engine-- executes a program behind(c) ---result in browser
+
+ 
+<app-root></app-root> ---brwser engine-- executes a program|WebcomponentRegistry
+					 ->javascript program
+
+
+Any custom element will have js 
+
+   <app-root> ----Fires/executes-js----ts-Component
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Application Req:
+
+1.Must have root module : app.module.ts :Application object
+2.Must have app component : Landing page of Ng.
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Component:Controller and data
+
+How to represent data in ng: Data binding
+
+
+Data binding patterns
+......................
+
+1.interpolation
+
+2.Type of binding
+property 
+
+Target : on which binding , can be enabled
+
+Element
+<img [src]="heroImageUrl">
+Component property
+<app-hero-detail [hero]="currentHero"></app-hero-detail>
+Directive 
+<div [ngClass]="{'special': isSpecial}"></div>
+
+3.Type of binding
+Event
+
+Target:
+Element event
+<button (click)="onSave()">Save</button>
+Component event
+<app-hero-detail (deleteRequest)="deleteHero()"></app-hero-detail>
+Directive event
+<div (myClick)="clicked=$event" clickable>click me</div>
+
+4.Two-way	
+Event and property	
+
+Target
+Event and property	
+<input [(ngModel)]="name">
+
+
+5.Attribute	
+Attribute (the exception)
+
+Target
+<button [attr.aria-label]="help">help</button>
+
+
+6.Class	
+class property
+
+Target
+<div [class.special]="isSpecial">Special</div>
+
+5.Style
+style property	
+<button [style.color]="isSpecial ? 'red' : 'green'">
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+ 
 
 
