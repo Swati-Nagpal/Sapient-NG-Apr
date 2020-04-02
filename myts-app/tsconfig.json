@@ -6,7 +6,10 @@
         "emitDecoratorMetadata": true,
         "watch": true,
         "noEmitOnError": true,
-        "target": "ES5"
+        "target": "ES6",
+        "noStrictGenericChecks": true,
+
+
     },
     "exclude": [
         "node_modules"
